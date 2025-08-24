@@ -5,9 +5,19 @@ meta {
 }
 
 post {
-  url: http://localhost:5000/api/generate-plan
-  body: none
+  url: http://localhost:3000/api/generate-plan
+  body: json
   auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "task": "Complete my project report"
+  }
 }
 
 settings {
