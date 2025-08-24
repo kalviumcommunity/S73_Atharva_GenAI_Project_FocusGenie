@@ -53,5 +53,42 @@ app.post("/api/zero-shot", async (req, res) => {
   }
 });
 
+app.post("/api/one-shot", async (req, res) => {
+  try {
+    const { task } = req.body;
+
+    if (!task) {
+      return res.status(400).json({ error: "Task is required" });
+    }
+
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
+    const prompt = `
+    You are FocusGenie, a productivity companion.
+
+    Example:
+    Task: "Complete a math assignment"
+    Focus Plan:
+    1. Gather all materials (notebook, calculator, textbook).
+    2. Break the assignment into 3 sections and set a 30-minute timer for each.
+    3. Review answers and highlight doubts for clarification.
+
+    Now generate a focus plan for:
+    Task: "${task}"
+    Focus Plan:
+    - Keep it under 3 to 4 actionable steps.
+    - Do not exceed 120 characters per step.  
+    `;
+
+    const result = await model.generateContent(prompt);
+    const output = result.response.text();
+
+    res.json({ plan: output });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Something went wrong!" });
+  }
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
