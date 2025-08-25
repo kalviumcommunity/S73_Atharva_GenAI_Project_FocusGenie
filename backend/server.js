@@ -61,8 +61,6 @@ app.post("/api/one-shot", async (req, res) => {
       return res.status(400).json({ error: "Task is required" });
     }
 
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-
     const prompt = `
     You are FocusGenie, a productivity companion.
 
@@ -86,7 +84,57 @@ app.post("/api/one-shot", async (req, res) => {
     res.json({ plan: output });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Something went wrong!" });
+    res.status(500).json({ error: "Something went wrong in one-shot!" });
+  }
+});
+
+app.post("/api/multi-shot", async (req, res) => {
+  try {
+    const { task } = req.body;
+
+    if (!task) {
+      return res.status(400).json({ error: "Task is required" });
+    }
+
+    const prompt = `
+    You are FocusGenie, a productivity companion.
+
+    Example 1:
+    Task: "Prepare for a biology exam"
+    Focus Plan:
+    1. Review syllabus & mark weak topics.
+    2. Create flashcards for key terms.
+    3. Solve 2 past papers under timed conditions.
+
+    Example 2:
+    Task: "Clean your room"
+    Focus Plan:
+    1. Pick up clothes and organize into laundry piles.
+    2. Dust surfaces and arrange books/items neatly.
+    3. Vacuum and mop the floor to finish.
+
+    Example 3:
+    Task: "Write a blog article"
+    Focus Plan:
+    1. Research topic and collect key points.
+    2. Draft an outline with intro, body, and conclusion.
+    3. Write, edit, and proofread before publishing.
+
+    Now generate a focus plan for:
+    Task: "${task}"
+    Focus Plan:
+    - Follow the same structure.
+    - Keep it concise with 3 clear steps.
+    - Avoid long sentences (under 120 characters).
+    `;
+
+    const result = await model.generateContent(prompt);
+    const output = result.response.text();
+
+    res.json({ plan: output });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Something went wrong in multi-shot!" });
   }
 });
 
