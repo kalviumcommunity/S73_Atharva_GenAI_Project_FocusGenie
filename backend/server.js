@@ -209,6 +209,33 @@ app.post("/api/chain-of-thought", async (req, res) => {
   }
 });
 
+app.post("/api/tokenize", async (req, res) => {
+  try {
+    const { text } = req.body;
+
+    if (!text) {
+      return res.status(400).json({ error: "Text is required" });
+    }
+    
+    const result = await model.generateContent(text);
+
+    const tokensUsed = result.response.usageMetadata.totalTokenCount || 0;
+
+    const tokens = text.split(/\s+/).map((word, index) => ({
+      id: index,
+      text: word
+    }));
+
+    res.json({
+      input: text,
+      totalTokens: tokensUsed || tokens.length,
+      tokens
+    });
+  } catch (error) {
+    console.error("Error in Tokenization:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
