@@ -5,7 +5,7 @@ meta {
 }
 
 post {
-  url: http://localhost:3000/api/dynamic-plan
+  url: http://localhost:3000/api/chain-of-thought
   body: json
   auth: inherit
 }
@@ -15,13 +15,9 @@ headers {
 }
 
 body:json {
-  {
-    "username": "Aarav",
-    "task": "Complete React assignment",
-    "time": "2 hours",
-    "mood": "stressed"
+  { 
+    "task": "Prepare for hackathon while managing college work" 
   }
-  
 }
 
 settings {
