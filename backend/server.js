@@ -138,5 +138,37 @@ app.post("/api/multi-shot", async (req, res) => {
   }
 });
 
+app.post("/api/dynamic-plan", async (req, res) => {
+  try {
+    const { task, time, mood, username } = req.body;
+
+    if (!task) {
+      return res.status(400).json({ error: "Task is required" });
+    }
+
+    const prompt = `
+    You are FocusGenie, a personalized productivity companion.
+
+    User: ${username || "Anonymous"}
+    Mood: ${mood || "neutral"}
+    Available time: ${time || "not specified"}
+    Task: "${task}"
+
+    Generate a focus plan that:
+    1. Considers the user's mood and time availability.
+    2. Keeps steps short and motivating.
+    3. Suggests a relaxation step if mood is stressed.
+    `;
+
+    const result = await model.generateContent(prompt);
+    const output = result.response.text();
+
+    res.json({ plan: output });
+  } catch (error) {
+    console.error("Error in Dynamic Prompting:", error);
+    res.status(500).json({ error: "Something went wrong in dynamic prompting!" });
+  }
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
