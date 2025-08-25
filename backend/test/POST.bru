@@ -5,7 +5,7 @@ meta {
 }
 
 post {
-  url: http://localhost:3000/api/chain-of-thought
+  url: http://localhost:3000/api/tokenize
   body: json
   auth: inherit
 }
@@ -15,9 +15,10 @@ headers {
 }
 
 body:json {
-  { 
-    "task": "Prepare for hackathon while managing college work" 
+  {
+    "text": "FocusGenie helps you stay productive"
   }
+  
 }
 
 settings {
