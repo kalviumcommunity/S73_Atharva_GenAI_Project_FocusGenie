@@ -170,5 +170,45 @@ app.post("/api/dynamic-plan", async (req, res) => {
   }
 });
 
+app.post("/api/chain-of-thought", async (req, res) => {
+  try {
+    const { task } = req.body;
+
+    if (!task) {
+      return res.status(400).json({ error: "Task is required" });
+    }
+
+    const prompt = `
+    You are FocusGenie, a productivity companion.
+    The user needs help with the following task:
+    "${task}"
+
+    Use **Chain-of-Thought reasoning**:
+    1. First, break down your reasoning process step by step (think aloud).
+    2. Then provide the final clean focus plan.
+
+    Format your response as:
+    Reasoning:
+    - Step 1 ...
+    - Step 2 ...
+    - Step 3 ...
+
+    Final Focus Plan:
+    1. ...
+    2. ...
+    3. ...
+    `;
+
+    const result = await model.generateContent(prompt);
+    const output = result.response.text();
+
+    res.json({ plan: output });
+  } catch (error) {
+    console.error("Error in Chain-of-Thought Prompting:", error);
+    res.status(500).json({ error: "Something went wrong in chain-of-thought!" });
+  }
+});
+
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
