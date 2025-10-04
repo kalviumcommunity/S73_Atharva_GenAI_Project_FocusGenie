@@ -8,12 +8,10 @@ The system leverages prompt engineering techniques and retrieval-augmented gener
 
 ---
 
-## Features  
-- User Authentication (JWT + Cookies) → Signup, Login, Logout  
+## Features   
 - AI-Powered Productivity Advice → Personalized responses to user queries  
 - RAG-based Recommendations → Uses productivity knowledge base (Pomodoro, Deep Work, Eisenhower Matrix, etc.)  
 - Prompt Engineering → Zero-shot, One-shot, Multi-shot, Dynamic, and Chain-of-Thought prompts  
-- Vector Database → Embeddings stored in MongoDB for fast similarity search  
 - Cosine Similarity → Finds the most relevant strategies based on user queries  
 - Creativity Controls → Adjust AI response style (temperature, top-p, top-k)  
 - User Dashboard → Track and save AI-recommended plans  
@@ -31,9 +29,8 @@ The system leverages prompt engineering techniques and retrieval-augmented gener
 
 ## System Architecture  
 1. **Frontend (React)** → Provides user interface for queries and dashboards.  
-2. **Backend (Express)** → Handles API requests, authentication, and AI calls.  
-3. **MongoDB** → Stores users, embeddings, and saved productivity tips.  
-4. **AI Layer (RAG)** → Uses embeddings + cosine similarity to retrieve strategies, then enhances output with prompt engineering.  
+2. **Backend (Express)** → Handles API requests, authentication, and AI calls.   
+3. **AI Layer (RAG)** → Uses embeddings + cosine similarity to retrieve strategies, then enhances output with prompt engineering.  
 
 ---
 
