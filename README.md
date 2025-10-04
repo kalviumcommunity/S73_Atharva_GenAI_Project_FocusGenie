@@ -72,7 +72,7 @@ npm install
 ### 3. Setup Environment
 Create a .env file in backend:
 ```bash
-PORT=5000
+PORT=3000
 MONGO_URI=your_mongodb_uri
 JWT_SECRET=your_jwt_secret
 GEMINI_API_KEY=your_api_key_here
@@ -89,7 +89,7 @@ cd frontend
 npm start
 ```
 
-App will run at: `http://localhost:3000`
+App will run at: `http://localhost:5173`
 
 ## Example Use Cases  
 - **User:** "I keep procrastinating my assignments."  
